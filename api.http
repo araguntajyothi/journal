@@ -1,0 +1,63 @@
+# create entry
+
+POST http://localhost:8080/journal/jyothi
+content-type: application/json
+
+{
+  
+    "title": "Camunda",
+    "content": "Camunda 8 Architecture"
+}
+
+# get all entries
+###
+GET http://localhost:8080/journal/jyothi
+Authorization: Basic dXNlcjp0ZXN0X21hcmtlX2FzcGVjdF9pZDp439f90db-ebb6-4229-ac47-d9277e26aa02
+
+
+###
+# get entry by id
+GET http://localhost:8080/journal/id/67aaf31048dcb65749e7aecf
+
+###
+# update entry by id
+PUT http://localhost:8080/journal/id/admin/67ada55779e7f57352f7c7d8
+content-type: application/json
+
+{
+    "title": "Good Evening",
+    "content": "Hello GE"
+}
+
+###
+# delete entry by id
+DELETE http://localhost:8080/journal/id/admin/67ad9f57dd5b047a82261c5d
+
+###
+# create user
+
+POST http://localhost:8080/public
+content-type: application/json
+
+{
+
+    "userName": "jyothi",
+    "password": "jyothi"
+}
+
+# get all users
+###
+GET http://localhost:8080/user
+
+###
+# update user by name
+PUT http://localhost:8080/user
+content-type: application/json
+
+{
+
+    "userName": "AJ",
+    "password": "admin@123"
+}
+
+###
