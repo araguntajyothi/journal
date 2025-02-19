@@ -30,7 +30,8 @@
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<sonar.login>squ_f5292a9755df7c65be7fbc23548646196746bc24</sonar.login>
+		<sonar.organization>journal-jyothi</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>
