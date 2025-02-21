@@ -16,7 +16,6 @@ import com.springboot.rest.api.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-@Profile("dev")
 public class SpringSecurityConfig {
 
     
