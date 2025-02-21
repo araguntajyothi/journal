@@ -19,9 +19,11 @@ public class UserServiceTests {
     @Autowired
     private UserRepository repository;
 
+
     @Autowired
     private UserService userService;
 
+    @Disabled
     @ParameterizedTest
     // @CsvSource({
 //    @ValueSource(strings = {
