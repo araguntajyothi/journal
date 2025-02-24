@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+
 
 @SpringBootTest
 public class UserRepositoryImplTests {
@@ -17,7 +17,7 @@ public class UserRepositoryImplTests {
 
     @Disabled
     @Test
-    public void test(){
+    void test(){
         Assertions.assertNotNull(userRepositoryImpl.getUserForSA());
 
     }
