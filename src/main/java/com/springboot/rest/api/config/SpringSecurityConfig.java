@@ -1,10 +1,14 @@
 package com.springboot.rest.api.config;
 
+import com.springboot.rest.api.filter.JwtFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -13,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.springboot.rest.api.service.UserDetailsServiceImpl;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,8 +26,11 @@ public class SpringSecurityConfig {
     
     private final UserDetailsServiceImpl userDetailsService;
 
-    public SpringSecurityConfig(UserDetailsServiceImpl userDetailsService) {
+    private JwtFilter jwtFilter;
+
+    public SpringSecurityConfig(UserDetailsServiceImpl userDetailsService, JwtFilter jwtFilter) {
         this.userDetailsService = userDetailsService;
+        this.jwtFilter = jwtFilter;
     }
 
     @Bean
@@ -32,10 +40,14 @@ public class SpringSecurityConfig {
                                         .requestMatchers("/journal/**", "/user/**").authenticated()
                                         .requestMatchers("/admin/**").hasRole("ADMIN")
                                         .anyRequest().permitAll())
-                  .httpBasic(Customizer.withDefaults())
+//                  .httpBasic(Customizer.withDefaults())
                   .csrf(AbstractHttpConfigurer::disable)
+//                jwt
+                  .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                   .build();
     }
+
+//    for basic
 
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -44,6 +56,12 @@ public class SpringSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
+    }
+
+//    for jwt
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
+        return auth.getAuthenticationManager();
     }
     
 }

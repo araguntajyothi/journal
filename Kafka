@@ -1,0 +1,158 @@
+Kafka is a open source distributed event streaming platform
+
+It is designed to handle data that is constantly being
+generated and needs to be processed as it comes in,
+ without delays
+
+ kafka cluster : group of kafka brokers
+ kafka broker: is nothing but a server where kafka is running
+ kafka producer: is nothing but writing  new data into kafka cluster
+ kafka consumer: consume data
+ zookeeper: keeps track of kafka cluster health
+ kafka connect: if we want get the data from external entity(it has sink and source)
+ we no need to write any code for this, it is a kind of declarative integration
+ kafka stream: it has some functionalities which we will use in data transaformation,
+ means will take data from kafka, and perform some functionality and keep it back to kafka
+
+kafka topic: Named container for similar events, unique idnetifier of a topic is it's name
+ex: Student topic will have student related data
+
+They are like tables in database
+They live inside a broker
+
+Producer produces a message into the topic(ultimately to partitions in round robin fashion)
+or directly into the partitions.
+
+Consumer poll continously for new messages using the topic name
+
+Partition: A topic partitioned and distributed to kafka brokers in round robin fashion to acheive distributed system
+
+replication factor: A partition is replicated by this factor and it is replicated in another broker to prevent fault tolerance
+
+Partitions:
+A topic is split into several parts which are known as the partitions of the topic
+
+partitions is where actually the messgae is located inside the topic
+
+
+therefore while creating topic we need to specify the number of partitions(the number is arbitrary and can be changed later)
+
+Each partition is an ordered, immutable sequence of records
+
+Each partition is independent of each other
+
+Each msg get stored into partitions with an incremental id known as offset value
+
+Ordering is there only at partition level.(so if data is to be stored in order then do it on same partition)
+
+partition continously grows(offset increases) as new recoreds are produced
+
+All the records exist in distributed log file
+
+when sending messaged with key, ordering will be maintained as they will be in the same partitions
+
+without key we can not gaurantee the ordering of message as consumer poll, the messages from all the partitions at the same time
+
+Consumer offset: position of a consumer in a specific partition of a topic
+it represents the latest message that consumer has read
+
+when a consumer group reads messages from a topic,
+each member of the group maintains it's own offset
+and updates it as it consumes messages.
+
+consumer group: when we start consumer group.bat in kafka console , automatically a group id will be assigned to it,
+we can create multiple consumers , we can group them by using the above group id
+
+what is __consumer_offset?
+__consumer_offset is a built-in topic in apache kafka
+that keeps track of the latest offset committed for
+ each partition of each consumer group
+
+ The topic is internal to the kafka cluster and not meant to
+ be read or written to directly by clients.
+
+ Instead , the offset information is stored in the topic
+ and updated by the kafka broker to reflect the position
+ of each consumer in each partition
+
+ The information in __consumer_offset is used by kafka to maintain
+ the reliability of the consumer groups and to ensure that messages are
+ not lost or duplicated
+
+ There is a separate  __consumer_offsets topic created for each
+ consumer group, so if you have 2 __consumer_offsets topics created.
+
+ The __consumer_offset topic is used to store the current offset if each consumer in
+ each partition for a given consumer group.
+
+ Each consumer in the group updates it's own offset for the
+ partitions it is assigned in the __consumer_offsets topic,
+ and the group coordinator uses this information to manage the
+ assignment of partitions to consumers and to ensure that
+ each partition is being consumed by exactly one consumer in the
+ group
+
+ when a consumer joins a consumer group, it sends a join request to
+ the group coordinator
+
+ thr group coordinator determines which partitions the consumer should
+ be assigned based on the number of consumers in the group
+ and the current assignment of partitions to consumers
+
+ the group coordinator then sends a new assignment of partitions
+ to the consumer , which includes the set of partitions that
+ consumer is responsible for consuming.
+
+ The consumer starts consuming data from the assigned partitions
+
+ It is important to note that consumers in a consumer group are
+ always assigned ti partitions in a sticky fashion, meaning
+ that a consumer will continue to be assigned the same partitions
+ as long as it remains in the group.
+
+ This allows cosnumers to maintain their position in the topic
+ and continue processing where they left off, even after a rebalance
+
+
+
+
+
+
+🟢 INSTALLATION COMMANDS
+
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+kafka-topics.bat --create --topic my-topic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 3
+
+kafka-console-producer.bat --broker-list localhost:9092 --topic my-topic
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic my-topic --from-beginning
+
+🟢 SENDING MESSAGES COMMANDS
+
+zookeeper-server-start.bat ..\..\config\zookeeper.properties
+
+kafka-server-start.bat ..\..\config\server.properties
+
+kafka-topics.bat --create --topic foods --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
+
+kafka-console-producer.bat --broker-list localhost:9092 --topic foods --property "key.separator=-" --property "parse.key=true"
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic foods --from-beginning -property "key.separator=-" --property "print.key=false"
+
+
+
+Segments commit log and retention policy:
+
+set of messages, that is part of partition we can call as segment
+
+we can define that segment , how many messages we can get into that part of the partition
+
+we will use this segment information in commit logs
+
+
+
+
+

@@ -1,0 +1,55 @@
+JWT: JSON WEB TOKEN
+
+JWT is a way to securely transmit data between parties as a JSON object
+
+JWT is a compact, URL-safe toke that can carry information between two parties
+
+it will use base 64 url encoding
+
+A JWT is a string consisting of three parts separated by dots
+
+Header:
+The header typically consists of two parts: the type of the token(JWT)
+and the signing algorithm being used, such as HMAC SHA256 or RSA
+
+{
+"alg": "HS256",
+"typ": "JWT"
+}
+
+Payload:
+The payload contains the claims. Claims are statements about an entity(typically, the user)
+and additional metadata
+{
+"email": "email@gmail.com",
+"name": "John Doe"
+}
+
+Signature:
+The signature is used to verify that the sender of the jwt
+is who it says it is and to ensure that the message wasn't chnaged along the way.
+
+To create the signature part, you have to take the encoded header,
+the encoded payload, a secret, the algorithm specified in the
+header, and sign that.
+
+HMACSHA256(
+secret, base64UrlEncoded(header) + "." + base64UrlEncoded(payload)
+)
+
+we can easily deocde user and password when we are using basic authentication
+
+but with jwt we have secret , we will get token that will send to client,
+and we can set expiry date to the secret
+
+
+add jwt dependencies:
+
+JwtUtil
+in securityconfig: add AuthenticationManager
+JWt filter
+then add jwt filter in securityfilter chain in security config class
+
+
+
+
