@@ -31,12 +31,16 @@ import com.springboot.rest.api.service.UserService;
 @RequestMapping("/journal")
 public class JournalEntryControllerv2 {
 
-  @Autowired
+
   private JournalEntryService journalService;
 
-  @Autowired
+
   private UserService userService;
 
+    public JournalEntryControllerv2(JournalEntryService journalService, UserService userService) {
+        this.journalService = journalService;
+        this.userService = userService;
+    }
 
     @GetMapping
     public ResponseEntity<List<JournalEntry>> getAllJournalEntriesOfUser(){

@@ -3,7 +3,6 @@ package com.springboot.rest.api.controller;
 import com.springboot.rest.api.response.WeatherResponse;
 import com.springboot.rest.api.service.WeatherService;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,15 +18,20 @@ import com.springboot.rest.api.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+
     private UserService service;
 
-    @Autowired
+
     private UserRepository repository;
 
-    @Autowired
+
     private WeatherService weatherService;
 
+    public UserController(UserService service, UserRepository repository, WeatherService weatherService) {
+        this.service = service;
+        this.repository = repository;
+        this.weatherService = weatherService;
+    }
 
     @PutMapping
     public ResponseEntity<?> updateJournalEntryById(@RequestBody User user) {
