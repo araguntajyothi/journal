@@ -1,0 +1,76 @@
+#spring:
+#    profiles:
+#        active: dev
+
+
+#logging:
+#    level:
+#        com:
+#          springboot:
+#             rest:
+#                api: DEBUG
+
+spring:
+  kafka:
+# Required connection configs for Kafka producer, consumer, and admin
+    bootstrap-servers: pkc-l7pr2.ap-south-1.aws.confluent.cloud:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+        group-id: weekly-sentiment-group
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        properties:
+          spring:
+            json:
+              trusted:
+                packages: com.springboot.rest.api.model
+    properties:
+      sasl:
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username='BZ4DKPFBOK6X3H6H' password='0L7qAgpo0emX+tHml6HuZXC7B1vU65nxNX4CdH6rI3D+Rcz24P8OzpHZDKMZ59xa';
+        mechanism: PLAIN
+      security:
+        protocol: SASL_SSL
+      session:
+        timeout:
+          ms: 45000
+    client:
+      id: ccloud-springboot-client-b53d911e-7728-47f8-a1c3-44b38d954564
+
+  redis:
+      uri: redis-cli -u redis://default:s8NC5AQV8Mgpn8eF2bCJrR7hIiD79bOT@redis-15803.c305.ap-south-1-1.ec2.redns.redis-cloud.com:15803
+#      host: localhost
+#      port: 6379
+  data:
+      mongodb:
+            uri: mongodb+srv://akshayajyothi17:RBgqR3vN2bUiDKxw@cluster0.tcevr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+            database: journaldb
+            auto-index-creation: true
+  mail:
+       host: smtp.gmail.com  # for outlook smtp.office365.com, yahoo: smpt.mail.yahoo.com
+       port: 587
+       username: akshayajyothi17@gmail.com
+       password: uswy xyab qrvf afgv
+       properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+
+server:
+    port: 8080
+    servlet:
+        context-path: /journal
+
+weather:
+    api:
+        key: 4822da575248b639920fc0f0161f44a6
+
+
+
+
+
+
