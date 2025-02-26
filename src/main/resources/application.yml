@@ -41,8 +41,7 @@ spring:
 
   redis:
       uri: redis-cli -u redis://default:s8NC5AQV8Mgpn8eF2bCJrR7hIiD79bOT@redis-15803.c305.ap-south-1-1.ec2.redns.redis-cloud.com:15803
-#      host: localhost
-#      port: 6379
+
   data:
       mongodb:
             uri: mongodb+srv://akshayajyothi17:RBgqR3vN2bUiDKxw@cluster0.tcevr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
